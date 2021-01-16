@@ -1,0 +1,43 @@
+﻿@{
+    ViewBag.Title = "Your projects";
+}
+
+<style>
+    body {
+        background-image: none;
+    }
+</style>
+
+@if (ViewBag.isAdmin == 1)
+{
+<ol class="breadcrumb">
+    <h2>All projects</h2>
+</ol>
+}
+else
+{
+<ol class="breadcrumb">
+    <h2>@ViewBag.Title</h2>
+</ol>
+}
+
+<h3>@ViewBag.message</h3>
+
+@foreach (var project in ViewBag.Projects)
+{
+    if (project.Team.TeamUsers.Contains(ViewBag.User) || ViewBag.isAdmin == 1)
+    {
+        <div class="panel panel-info">
+            <div class="panel-heading" style="background-color: #96CDFF;"><b>@project.ProjectName</b></div>
+            <div class="panel-body">
+                <p> Team: <b>@project.Team.TeamName</b> </p>
+            </div>
+            <div class="panel-footer">
+                <a class=" btn btn-sm btn btn-primary" href="/Projects/Show/@project.ProjectId">Show project</a>
+            </div>
+        </div>
+    }
+}
+<br />
+<a class="btn btn-primary" style="background-color:white; color: #2e6da4" href="/Projects/New">New project</a>
+<br />

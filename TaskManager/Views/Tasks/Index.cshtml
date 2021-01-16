@@ -1,0 +1,53 @@
+﻿@{
+    ViewBag.Title = "Your tasks";
+}
+
+<style>
+    body {
+        background-image: none;
+    }
+</style>
+
+@if (ViewBag.isAdmin == 1)
+{
+    <ol class="breadcrumb">
+        <h2>All tasks</h2>
+    </ol>
+}
+else
+{
+    <ol class="breadcrumb">
+        <h2>@ViewBag.Title</h2>
+    </ol>
+}
+
+<h3>@ViewBag.Message</h3>
+
+@{ bool aux = false; }
+
+@foreach (var task in ViewBag.Tasks)
+{
+    if (ViewBag.UserTeams.Contains(task.Project.Team) || ViewBag.isAdmin == 1)
+    {
+        <div class="panel panel-info">
+            <div class="panel-heading" style="background-color: #96CDFF;"><b>@task.TaskTitle</b></div>
+            <div class="panel-body">
+                <p> Project: <b>@task.Project.ProjectName</b> </p>
+                <br />
+                <p>Deadline: <b><span class="label label-default" style="background-color:#DBBADD">@task.TaskDateEnd</span></b></p>
+            </div>
+            <div class="panel-footer">
+                <a class=" btn btn-sm btn btn-primary" href="/Tasks/Show/@task.TaskId">Show task</a>
+            </div>
+        </div>
+
+        { aux = true; }
+    }
+}
+@if (aux == false)
+{
+    <h3>No tasks yet!</h3>
+}
+
+
+

@@ -1,0 +1,77 @@
+﻿﻿@model TaskManager.Models.Task
+
+@{
+    ViewBag.Title = "Edit task";
+}
+
+<style>
+    body {
+        background-image: none;
+    }
+</style>
+
+<form method="post" action="/Tasks/Edit/@Model.TaskId">
+
+    @if (ViewBag.isOrg == 0 && ViewBag.isAdmin == 0)
+    {
+        <div style="display:none;">
+            @Html.HttpMethodOverride(HttpVerbs.Put)
+            <br />
+            @Html.HiddenFor(m => m.TaskId)
+
+            @Html.Label("Title", "Task title")
+            <br />
+            @Html.EditorFor(m => m.TaskTitle)
+            @Html.ValidationMessageFor(model => model.TaskTitle, null, new { @class = "text-danger" })
+            <br /><br />
+            @Html.Label("Descript", "Task description")
+            <br />
+            @Html.EditorFor(m => m.TaskDescription);
+            <br /><br />
+            @Html.Label("TaskEnd", "Task deadline")
+            <br />
+            @Html.EditorFor(m => m.TaskDateEnd)
+            <br />
+            <br /><br />
+
+            @Html.Label("UserSelect", "Select user")
+            @Html.DropDownListFor(m => m.UserId, new SelectList(Model.Users, "Value", "Text"),
+            "Select user", new { @class = "form-control" })
+            <br />
+        </div>
+    }
+    else if(ViewBag.isOrg == 1 || ViewBag.isAdmin == 1)
+    {
+        @Html.HttpMethodOverride(HttpVerbs.Put)
+        <br />
+        @Html.HiddenFor(m => m.TaskId)
+
+        @Html.Label("Title", "Task title")
+        <br />
+        @Html.EditorFor(m => m.TaskTitle)
+        @Html.ValidationMessageFor(model => model.TaskTitle, null, new { @class = "text-danger" })
+        <br /><br />
+        @Html.Label("Descript", "Task description")
+        <br />
+        @Html.EditorFor(m => m.TaskDescription);
+        <br /><br />
+        @Html.Label("TaskEnd", "Task deadline")
+        <br />
+        @Html.EditorFor(m => m.TaskDateEnd)
+        <br /><br />
+
+        @Html.Label("UserSelect", "Select user")
+        @Html.DropDownListFor(m => m.UserId, new SelectList(Model.Users, "Value", "Text"),
+        "Select user", new { @class = "form-control" })
+        <br />
+    }
+
+    @Html.Label("Status", "Task status")
+    <br />
+    @Html.DropDownListFor(m => m.TaskStatus, new SelectList(Enum.GetValues(typeof(TaskManager.Models.Status))), "Select Status", new { @class = "form-control" })
+    @Html.ValidationMessageFor(model => model.TaskStatus, null, new { @class = "text-danger" })
+
+    <br /><br />
+    <button class="btn btn-primary" type="submit">Modify</button>
+
+</form>

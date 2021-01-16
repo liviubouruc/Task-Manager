@@ -1,0 +1,37 @@
+﻿﻿@model TaskManager.Models.Task
+
+@{
+    ViewBag.Title = "New task";
+}
+
+<style>
+    body {
+        background-image: none;
+    }
+</style>
+
+<h2>@ViewBag.Title</h2>
+<br />
+
+<form method="post" action="/Tasks/New">
+    @Html.Label("TaskName", "Task name")
+    <br />
+    @Html.TextBox("TaskTitle", null, new { })
+    @Html.ValidationMessageFor(model => model.TaskTitle, null, new { @class = "text-danger" })
+    <br /> <br />
+    @Html.Label("TaskDescript", "Task description")
+    <br />
+    @Html.TextArea("TaskDescription", null, new { })
+    <br /> <br />
+    @Html.Label("DateEnd", "Deadline")
+    <br />
+    @Html.EditorFor(m => m.TaskDateEnd, new { @type = "date" })
+    <br /><br />
+    @Html.Label("TeamSelect", "Select project")
+    @Html.DropDownListFor(m => m.ProjectId, new SelectList(Model.Projects, "Value", "Text"),
+    "Select project", new { @class = "form-control" })
+    @Html.ValidationMessageFor(model => model.ProjectId, null, new { @class = "text-danger" })
+    <br /> <br />
+
+    <button class="btn btn-primary" type="submit">Add</button>
+</form>

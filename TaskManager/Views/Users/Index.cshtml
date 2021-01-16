@@ -1,0 +1,35 @@
+﻿@{
+    ViewBag.Title = "All users";
+}
+
+<style>
+    body {
+        background-image: none;
+    }
+</style>
+
+<ol class="breadcrumb">
+    <li><h2>@ViewBag.Title</h2></li>
+</ol>
+
+<h3>@ViewBag.message</h3>
+@foreach (var user in ViewBag.UsersList)
+{
+    <div class="panel panel-info">
+        <div class="panel-heading" style="background-color: #96CDFF;">User: @user.UserName</div>
+        <div class="panel-body">
+            <i class="glyphicon glyphicon-envelope"></i> Email: <span class="label label-default">@user.Email</span>
+            <br /><br />
+
+            @if (user.PhoneNumber != null)
+            {
+                <i class="glyphicon glyphicon-phone"></i>@:Phone number:<span class="label label-default">@user.PhoneNumber</span>
+            }
+        </div>
+        <div class="panel-footer">
+            <a class="btn btn-sm btn-primary" href="/Users/Edit/@user.Id">Edit user</a>
+            <a class="btn btn-sm btn-primary" style="margin-left: 86%;" href="/Users/Show/@user.Id">Show user</a>
+        </div>
+    </div>
+    <br /><br />
+}

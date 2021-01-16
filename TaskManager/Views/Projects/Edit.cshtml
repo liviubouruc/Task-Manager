@@ -1,0 +1,26 @@
+﻿@model TaskManager.Models.Project
+
+@{
+    ViewBag.Title = "Edit project";
+}
+
+<style>
+    body {
+        background-image: none;
+    }
+</style>
+
+<h2>@ViewBag.Title</h2>
+<br />
+
+<form method="post" action="/Projects/Edit/@Model.ProjectId">
+
+    @Html.HttpMethodOverride(HttpVerbs.Put)
+
+    @Html.Label("ProjectNameEdit", "Project Name") <br />
+    @Html.EditorFor(p => p.ProjectName)
+    @Html.ValidationMessageFor(model => model.ProjectName, null, new { @class = "text-danger" })
+    <br /><br />
+
+    <button class="btn btn-primary" type="submit">Modify</button>
+</form>

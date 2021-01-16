@@ -1,0 +1,103 @@
+﻿@model TaskManager.Models.Task
+
+@{
+    ViewBag.Title = "Show";
+}
+
+<style>
+    body {
+        background-image: none;
+    }
+</style>
+
+<br />
+<a class="btn btn-primary" href="/Tasks/Index">Back to all tasks</a>
+<br /> <br />
+<div class="panel panel-info">
+    <div class="panel-heading" style="background-color: #96CDFF;"><b>@Model.TaskTitle</b></div>
+    <div class="panel-body">
+        <b>Description: </b>@Model.TaskDescription
+        <br />
+        <b>Start Date:</b> <span class="label label-default" style="background-color:#DBBADD">@Model.TaskDateStart</span> <br />
+        <b>Deadline:</b> <span class="label label-default" style="background-color:#DBBADD">@Model.TaskDateEnd</span> <br />
+        <b>Project:</b> @Model.Project.ProjectName <br />
+        @if (Model.TaskStatus == TaskManager.Models.Status.NotStarted)
+        {
+            <span><b>Status:</b> not started</span>
+        }
+        @if (Model.TaskStatus == TaskManager.Models.Status.InProgress)
+        {
+            <span><b>Status:</b> in progress</span>
+        }
+        @if (Model.TaskStatus == TaskManager.Models.Status.Completed)
+        {
+            <span><b>Status:</b> completed</span>
+        } <br />
+        <b>Assigned user:</b> @ViewBag.pUserName
+        </br>
+        <hr>
+        <a class="btn btn-primary pull-left" href="/Tasks/Edit/@Model.TaskId">Edit</a>
+        @if (ViewBag.isOrg == 1 || ViewBag.isAdmin == 1)
+        {
+            <form method="post" action="/Tasks/Delete/@Model.TaskId">
+                @Html.HttpMethodOverride(HttpVerbs.Delete)
+                <button class="btn btn-danger pull-right" type="submit">Delete</button>
+            </form>
+        }
+    </div>
+</div>
+
+
+<br />
+@foreach (var comm in Model.Comments)
+{
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-8">
+                <div>
+                    <p>@comm.Content</p>
+                    <small class="pull-right">@comm.Date</small>
+                </div>
+                @if (comm.UserId == ViewBag.UserID || ViewBag.isAdmin == 1)
+                {
+                    <div style="display: inline-block; float : left; margin-right: 15px">
+                        <a class="glyphicon glyphicon-pencil" href="/Comments/Edit/@comm.CommentId"></a>
+                    </div>
+                    <div style="display: inline-block; float : left">
+                        <form method="post" action="/Comments/Delete/@comm.CommentId">
+                            @Html.HttpMethodOverride(HttpVerbs.Delete)
+                            <button class="glyphicon glyphicon-trash" style="border: none; background: transparent" type="submit"></button>
+                        </form>
+                    </div>
+                }
+
+            </div>
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+    <hr />
+}
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-8">
+            <div class="panel">
+                <form method="post" action="/Comments/New">
+                    <div class="panel-body">
+                        <input type="hidden" name="TaskId" value="@Model.TaskId" />
+                        <label> Write a comment </label>
+                        <br />
+                        <textarea class="form-control" name="Content"></textarea>
+                        <br />
+                        <button class="btn btn-primary " type="submit">Add</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+</div>

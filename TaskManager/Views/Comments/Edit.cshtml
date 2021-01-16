@@ -1,0 +1,22 @@
+﻿@model TaskManager.Models.Comment
+
+@{
+    ViewBag.Title = "Edit comment";
+}
+
+<style>
+    body {
+        background-image: none;
+    }
+</style>
+
+<h2>@ViewBag.Title</h2>
+
+<form method="post" action="/Comments/Edit/@Model.CommentId">
+    @Html.HttpMethodOverride(HttpVerbs.Put)
+    <br />
+    @Html.Editor("Content", new { htmlAttributes = new { @class = "form-control" } })
+    @Html.ValidationMessageFor(model => model.Content, null, new { @class = "text-danger" })
+    <br />
+    <button class="btn btn-primary" type="submit">Edit</button>
+</form>
